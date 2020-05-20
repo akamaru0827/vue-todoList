@@ -1,0 +1,122 @@
+<html>
+<head>
+	<title>to-do-list</title>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="to-do-list.css">
+</head>
+<body>
+<div id='main'>
+	<h1>TO-DO LIST</h1>
+	<div id='add'>
+		<input type="text" placeholder='請輸入代辦項目' 
+		v-model='work'
+		@keyup.enter="insertTodo">
+		<span class='plus' @click="insertTodo" >＋</span>
+	</div>
+	<ul id='tab'>
+		<li :class="{active:tab == 'all'}" @click="tab = 'all'">全部</li>
+		<li :class="{active:tab == 'waiting'}" @click="tab = 'waiting'">待完成</li>
+		<li :class="{active:tab == 'done'}" @click="tab = 'done'">已完成</li>
+	</ul>
+	<div id='todos'>
+		<div class='nolist' v-if="!list[0]">
+			目前沒有代辦事項喔
+		</div>
+		<todos v-for="(item,index) of list"
+		:key="index"
+		:index="index"
+		:content="item.work"
+		:type="item.type" 
+		:time="item.time"
+		:tab="tab"
+		@change="handleChange"
+		@cancel="handleCancel"
+		@complete="handleComplete">
+		</todos>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+Vue.component('todos',{
+	props:['content','index','tab','type','time'],
+	data(){
+		return {
+			editing : false,
+		}
+	},
+	template:`<div class='row' :class="type" v-show="tab==type|| tab=='all'">
+				<div class='term'>
+					<div class='thing' v-show='!editing'>{{content}}</div>
+					<input type='text' v-show='editing' :value=content ref="text" @keyup.enter=editOver>
+					<div class='icon edit' v-show='!editing' @click="edit"></div>
+					<div class='icon delete' v-show='!editing' @click="emitCancel"></div>
+					<div class='icon complete' v-show='!editing' @click="emitComplete"></div>
+					<div class='edit_done' v-show='editing' @click="editOver">編輯完成</div>
+				</div>
+				<div class='time'>
+					<img src='img/ic_calendar.png'><span>{{time}}</span>
+				</div>
+			</div>`,
+	methods:{
+		edit:function(){
+			this.editing = true;
+		},
+		editOver:function(){
+			this.editing = false;
+			this.$emit('change',this.index,this.$refs.text.value);
+		},
+		emitCancel:function(){
+			this.$emit('cancel',this.index);
+		},
+		emitComplete:function(){
+			this.$emit('complete',this.index,this.type);
+		}
+	}
+});
+new Vue({
+	el:'#main',
+	data:{
+		work:'',
+		list:[],
+		tab:'all',
+		date: ''
+	},
+	computed:{
+		nowTime:function(){
+			let Y = this.date.getFullYear(),
+				M = this.date.getMonth(),
+				d = this.date.getDate(),
+				h = this.date.getHours(),
+				m = this.date.getMinutes();
+			return M+'/'+d+'/'+Y+' '+h+':'+((m<10)?'0'+m:m);
+		}
+	},
+	methods:{
+		insertTodo:function(){
+			if(this.work == '') return;
+			this.date = new Date();
+			this.list.push({'work' : this.work,
+							'type' : 'waiting',
+							'time' : this.nowTime});
+			this.work = '';
+		},
+		handleChange:function(index,text){
+			this.list[index].work = text;
+		},
+		handleCancel:function(index){
+			let list = this.list;
+			list[index].type+=' fade';
+			window.setTimeout(function(){
+				list.splice(index,1);
+			},400)
+			console.log(list);
+		},
+		handleComplete:function(index,type){
+			this.list[index].type = 'done';
+		}
+	}
+});
+</script>
+</body>
+</html>

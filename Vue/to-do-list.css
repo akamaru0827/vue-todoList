@@ -1,0 +1,153 @@
+body{
+	background-color: #fb9c3b;
+	font-size: 15px;
+	font-family: Arial, 微軟正黑體, sans-serif;
+
+}
+h1{
+	text-align: center;
+}
+#main{
+	width: 500px;
+	margin:auto;
+	background-color: #54C4B7;
+	border: 1px #F07341 solid;
+	border-radius: 10px;
+
+}
+#add > input{
+	border:1px #CCCCCC solid;
+	border-color: transparent transparent #F07341 transparent;
+	background-color: #54C4B7;
+	width: 450px;
+	margin-left: 8px;
+	padding: 0px 0px 3px 5px;
+}
+#tab{
+	list-style: none;
+}
+#tab li{
+	float: left;
+    width: 137px;
+    text-align: center;
+    background-color: #FFFFFF;
+    border-radius: 5px 5px 0 0;
+    margin: 0px 5px 0px 0px;
+    padding: 5px 0px 5px 0px;
+    background-color: #d2d1d1;
+    cursor: pointer;
+}
+#tab li.active{
+	background-color: #FFFFFF;
+	cursor: default;
+}
+#todos{
+	clear: both;
+	background-color: #FFFFFF;
+	margin: 5px;
+	padding: 5px;
+	border-radius: 10px;
+}
+#todos div.nolist{
+	padding: 50px;
+	text-align: center;
+}
+#todos > .row{
+	border-radius: 10px;
+	position: relative;
+	margin: 5px;
+	padding: 5px;
+}
+	#todos > .row > .term{
+		display: flex;
+	}
+		#todos > .row > .term .thing{
+			width: 400px;
+		}
+		#todos > .row > .term .edit_done{
+			background-color: #786757;
+		    color: #FFFFFF;
+		    margin-left: 10px;
+		    border-radius: 5px;
+		    padding: 3px;
+		    font-size: 12px;
+		}
+		#todos > .row > .term .edit_done:hover{
+			background-color: #7e5d3e;
+			cursor: pointer;
+		}
+		#todos > .row.done > .term .thing{
+			text-decoration:line-through;
+		}
+#todos > .row > .time{
+	margin-top: 4px; 
+}
+	#todos > .row > .time  img{
+		max-width: 12px;
+		float: left;
+	}
+	#todos > .row > .time span{
+		font-size: 10px;
+		color: gray;
+	}
+#todos > .row.waiting{
+	background-color: #F9F790;
+}
+#todos > .row .edit{
+	background-image: url('img/pen.png');
+	top: 7px;
+	left: 2px;
+}
+#todos > .row .delete{
+	background-image: url('img/trash.png');
+	top: 7px;
+	left: 4px;
+}
+#todos > .row .complete{
+	background-image: url('img/check.png');
+	top: 5px;
+}
+#todos > .row.done{
+	background-color: #64DB8F;
+}
+#todos > .row.done .delete{
+	top: 7px;
+	left: 43px;
+}
+#todos > .row.done .edit,
+#todos > .row.done .complete{
+	display: none;
+}
+.icon{
+	display: inline-block;
+	background-repeat: no-repeat;
+	position: relative;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+.plus{
+	width: 20px;
+    height: 20px;
+    background-color: #F07341;
+    display: inline-block;
+    border-radius: 50%;
+    color: #FFFFFF;
+    font-size: 18px;
+    line-height: 19px;
+}
+.plus:hover{
+	cursor: pointer;
+	background-color: #db7307;
+}
+
+
+/* tramsition */
+#todos > .row{
+	opacity: 1;
+	transition: opacity .4s;
+	will-change: opacity;
+}
+#todos > .row.fade{
+	opacity: 0;
+}
